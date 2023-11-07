@@ -21,14 +21,6 @@ import java.util.List;
 @RestController
 public class UserController {
 
-    public String loginPage() {
-        return "/login";
-    }
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-
     private final UserService userService;
 
     @Autowired
@@ -44,19 +36,6 @@ public class UserController {
     @GetMapping("/users")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody User user) {
-        try {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())
-            );
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            return ResponseEntity.ok().body("Användare inloggad");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Inloggningsuppgifterna är felaktiga");
-        }
     }
 }
 
