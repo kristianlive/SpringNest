@@ -34,8 +34,12 @@ public class UserController {
 
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
-        model.addAttribute("user", new User()); // Lägg till en tom User till modellen
+        model.addAttribute("user", new User());
         return "register";
+    }
+    @GetMapping("/login")
+    public String login() {
+        return "login";
     }
     @ResponseBody
     @GetMapping("/users")
