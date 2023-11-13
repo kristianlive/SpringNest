@@ -47,10 +47,24 @@ public class UserController {
     public String login() {
         return "login";
     }
-    @ResponseBody
-    @GetMapping("/users")
+    @ResponseBody // används endast i postman
+    @GetMapping("/api/users")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
+    }
+
+
+    @GetMapping("/users")
+    public String listUsers(Model model) {
+        List<User> users = userService.getAllUsers();
+        model.addAttribute("users", users);
+        return "users";
+    }
+
+    @PostMapping("/deleteUser/{id}")
+    public String deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
+        return "redirect:/users";
     }
 }
 
