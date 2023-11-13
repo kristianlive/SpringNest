@@ -26,11 +26,17 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
-    @ResponseBody
+
+//    @PostMapping("/register")
+//    public User registerUser(@RequestBody User user) {
+//        return userService.addUser(user);
+//    }
     @PostMapping("/register")
-    public User registerUser(@RequestBody User user) {
-        return userService.addUser(user);
+    public String registerUser(@ModelAttribute User user) {
+        userService.addUser(user);
+        return "redirect:/login";
     }
+
 
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
@@ -41,10 +47,24 @@ public class UserController {
     public String login() {
         return "login";
     }
-    @ResponseBody
-    @GetMapping("/users")
+    @ResponseBody // används endast i postman
+    @GetMapping("/api/users")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
+    }
+
+
+    @GetMapping("/users")
+    public String listUsers(Model model) {
+        List<User> users = userService.getAllUsers();
+        model.addAttribute("users", users);
+        return "users";
+    }
+
+    @PostMapping("/deleteUser/{id}")
+    public String deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
+        return "redirect:/users";
     }
 }
 
