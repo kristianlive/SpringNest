@@ -26,11 +26,17 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
-    @ResponseBody
+
+//    @PostMapping("/register")
+//    public User registerUser(@RequestBody User user) {
+//        return userService.addUser(user);
+//    }
     @PostMapping("/register")
-    public User registerUser(@RequestBody User user) {
-        return userService.addUser(user);
+    public String registerUser(@ModelAttribute User user) {
+        userService.addUser(user);
+        return "redirect:/login";
     }
+
 
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
