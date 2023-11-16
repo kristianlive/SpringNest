@@ -54,7 +54,7 @@ public class UserController {
     }
 
 
-    @GetMapping("/users")
+    @GetMapping("/users") // används på webben
     public String listUsers(Model model) {
         List<User> users = userService.getAllUsers();
         model.addAttribute("users", users);

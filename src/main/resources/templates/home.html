@@ -6,7 +6,34 @@
 </head>
 <body>
 <h1>Welcome to the Home Page!</h1>
+<a th:href="@{/users}" class="users-button">Go to Users</a>
+
+<!-- Formulär för att skapa en ny mapp -->
+<form th:action="@{/createFolder}" method="post">
+    <input type="text" name="name" placeholder="Mappnamn">
+    <input type="submit" value="Skapa Mapp">
+</form>
+
+<!-- Lista med mappar för den inloggade användaren -->
+<h2>Dina Mappar</h2>
+<table>
+    <tr>
+        <th>Mappnamn</th>
+    </tr>
+    <tr th:each="folder : ${folders}">
+        <td th:text="${folder.name}"></td>
+        <td>
+            <!-- Formulär för att radera en mapp -->
+            <form th:action="@{/deleteFolder}" method="post">
+                <input type="hidden" name="folderId" th:value="${folder.id}" />
+                <input type="submit" value="Radera" />
+            </form>
+        </td>
+    </tr>
+</table>
+
 <p th:text="'User: ' + ${user}"></p>
 <a href="/logout">Log out</a>
 </body>
 </html>
+
