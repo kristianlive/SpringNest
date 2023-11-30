@@ -32,5 +32,11 @@ public class FolderService {
         folderRepository.deleteById(folderId);
     }
 
+    public List<Folder> getAllFolders() {
+        return folderRepository.findAll();
+    }
+
+
+
 }
 
