@@ -20,6 +20,9 @@ public class FolderService {
         folder.setUser(user);
         return folderRepository.save(folder);
     }
+    public Folder getFolder(Long id) {
+        return folderRepository.findById(id).orElse(null);
+    }
 
     public List<Folder> getFoldersByUser(User user) {
         return folderRepository.findAll();
@@ -28,6 +31,12 @@ public class FolderService {
     public void deleteFolder(Long folderId) {
         folderRepository.deleteById(folderId);
     }
+
+    public List<Folder> getAllFolders() {
+        return folderRepository.findAll();
+    }
+
+
 
 }
 

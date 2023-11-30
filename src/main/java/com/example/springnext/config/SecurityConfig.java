@@ -47,7 +47,11 @@ public class SecurityConfig extends AbstractHttpConfigurer<SecurityConfig, HttpS
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeRequests(authz -> authz
-                        .requestMatchers(new AntPathRequestMatcher("/login"), new AntPathRequestMatcher("/register"), new AntPathRequestMatcher("/users")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/login"),
+                                new AntPathRequestMatcher("/register"),
+                                new AntPathRequestMatcher("/users"),
+                                new AntPathRequestMatcher("/folders/**"),
+                                new AntPathRequestMatcher("/files/**")).permitAll()
                         .anyRequest().authenticated())
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
@@ -57,6 +61,8 @@ public class SecurityConfig extends AbstractHttpConfigurer<SecurityConfig, HttpS
                         .logoutSuccessUrl("/login?logout").permitAll());
         return http.build();
     }
+
+
 
 }
 
