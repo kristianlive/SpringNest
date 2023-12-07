@@ -11,6 +11,11 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * Klassen FolderService hanterar operationer relaterade till mappar.
+ * Det inkluderar skapande, radering och hämtning av mappinformation.
+ */
 @Service
 public class FolderService {
 
