@@ -13,6 +13,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * RestController för att hantera filrelaterade operationer som uppladdning och nedladdning.
+ */
 @RestController
 @RequestMapping("/files")
 public class FileController {
@@ -23,7 +26,7 @@ public class FileController {
     @Autowired
     private FolderService folderService;
 
-    // Endpoint upload
+    // Hanterar uppladdning av filer till en specifik mapp
     @PostMapping("/upload")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file,
                                              @RequestParam("folderId") Long folderId) {
@@ -40,7 +43,7 @@ public class FileController {
         }
     }
 
-    // Endpoint nedladdning
+    // Hanterar nedladdning av en fil baserat på dess ID
     @GetMapping("/{id}")
     public ResponseEntity<byte[]> downloadFile(@PathVariable Long id) {
         File file = fileService.getFile(id);
@@ -52,9 +55,6 @@ public class FileController {
                 .header("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"")
                 .body(file.getData());
     }
-
-
-
 
 }
 

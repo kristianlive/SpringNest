@@ -17,50 +17,56 @@ import com.example.springnext.service.UserService;
 import java.util.List;
 
 
+/**
+ * Kontrollerklass för att hantera användarrelaterade webbåtgärder.
+ */
 @Controller
 public class UserController {
 
     private final UserService userService;
 
+    // Konstruktör för att autowire UserService
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
-//    @PostMapping("/register")
-//    public User registerUser(@RequestBody User user) {
-//        return userService.addUser(user);
-//    }
+    // Hanterar POST-begäran för att registrera en användare
     @PostMapping("/register")
     public String registerUser(@ModelAttribute User user) {
         userService.addUser(user);
         return "redirect:/login";
     }
 
-
+    // Visar registreringsformuläret
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
         model.addAttribute("user", new User());
         return "register";
     }
+
+    // Visar inloggningsformuläret
     @GetMapping("/login")
     public String login() {
         return "login";
     }
-    @ResponseBody // används endast i postman
+
+    // Hämtar alla användare (används i API)
+    @ResponseBody
     @GetMapping("/api/users")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
 
-
-    @GetMapping("/users") // används på webben
+    // Visar en lista med alla användare (används i webbgränssnittet)
+    @GetMapping("/users")
     public String listUsers(Model model) {
         List<User> users = userService.getAllUsers();
         model.addAttribute("users", users);
         return "users";
     }
 
+    // Hanterar begäran om att radera en användare
     @PostMapping("/deleteUser/{id}")
     public String deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);

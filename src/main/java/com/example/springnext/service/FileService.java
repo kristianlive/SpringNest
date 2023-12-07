@@ -10,10 +10,13 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @Service
+// FileService hanterar operationer relaterade till filer, som att spara och hämta filer.
 public class FileService {
 
     @Autowired
     private FileRepository fileRepository;
+
+    // Sparar en fil som har laddats upp, associerad med en specifik mapp.
     public File saveFile(MultipartFile multipartFile, Folder folder) throws IOException {
         File file = new File();
         file.setName(multipartFile.getOriginalFilename());
@@ -25,9 +28,9 @@ public class FileService {
         return fileRepository.save(file);
     }
 
+    // Hämtar en fil baserat på dess ID.
     public File getFile(Long id) {
         return fileRepository.findById(id).orElse(null);
     }
-
-
 }
+
