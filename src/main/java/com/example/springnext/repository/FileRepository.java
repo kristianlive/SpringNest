@@ -9,7 +9,10 @@ import java.util.List;
 
 @Repository
 
-public interface FileRepository extends JpaRepository <File, Long> {
-    List<File> findAllByFolder(Folder folder);
+// FileRepository är ett repository-gränssnitt för att hantera File-entiteter.
+// Det utökar JpaRepository och ger standard CRUD-operationer för File-entiteter.
+public interface FileRepository extends JpaRepository<File, Long> {
 
+    // Hämtar alla filer som är associerade med en specifik mapp.
+    List<File> findAllByFolder(Folder folder);
 }

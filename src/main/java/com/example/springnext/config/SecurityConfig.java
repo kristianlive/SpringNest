@@ -21,15 +21,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Configuration
 public class SecurityConfig extends AbstractHttpConfigurer<SecurityConfig, HttpSecurity> {
 
-
     @Autowired
     private AuthenticationConfiguration authenticationConfiguration;
 
+    // Skapar en bean för AuthenticationManager
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
-
 
     @Autowired
     private UserService userService;
@@ -37,32 +36,32 @@ public class SecurityConfig extends AbstractHttpConfigurer<SecurityConfig, HttpS
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    // Konfigurerar autentisering med UserService och PasswordEncoder
     @Autowired
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService).passwordEncoder(passwordEncoder);
     }
 
+    // Konfigurerar säkerhetsfilter och åtkomstregler
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())
+                .csrf(csrf -> csrf.disable()) // Inaktiverar CSRF-skydd
                 .authorizeRequests(authz -> authz
                         .requestMatchers(new AntPathRequestMatcher("/login"),
                                 new AntPathRequestMatcher("/register"),
                                 new AntPathRequestMatcher("/users"),
                                 new AntPathRequestMatcher("/folders/**"),
-                                new AntPathRequestMatcher("/files/**")).permitAll()
-                        .anyRequest().authenticated())
+                                new AntPathRequestMatcher("/files/**")).permitAll() // Tillåter obegränsad åtkomst till vissa vägar
+                        .anyRequest().authenticated()) // Kräver autentisering för alla andra förfrågningar
                 .formLogin(formLogin -> formLogin
-                        .loginPage("/login")
+                        .loginPage("/login") // Anpassad inloggningssida
                         .permitAll()
-                        .defaultSuccessUrl("/home", true))
+                        .defaultSuccessUrl("/home", true)) // Omdirigerar till /home efter lyckad inloggning
                 .logout(logout -> logout
-                        .logoutSuccessUrl("/login?logout").permitAll());
+                        .logoutSuccessUrl("/login?logout").permitAll()); // Hanterar utloggning
         return http.build();
     }
-
-
 
 }
 

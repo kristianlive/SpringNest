@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
+/**
+ * Kontrollerklass för att hantera åtgärder relaterade till mappar.
+ */
 @Controller
 public class FolderController {
 
@@ -20,6 +23,7 @@ public class FolderController {
     @Autowired
     private UserService userService;
 
+    // Hämtar alla mappar och returnerar dem som en ResponseEntity
     @GetMapping("/folders")
     public ResponseEntity<List<Folder>> getAllFolders() {
         List<Folder> folders = folderService.getAllFolders();

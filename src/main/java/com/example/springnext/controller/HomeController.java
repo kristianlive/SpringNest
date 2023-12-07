@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 
+/**
+ * Kontrollerklass för att hantera huvudsidans webbgränssnittet.
+ */
 @Controller
 public class HomeController {
 
@@ -27,13 +30,14 @@ public class HomeController {
     @Autowired
     private UserService userService;
 
+    // Visar hemsidan och hämtar information baserat på den inloggade användaren
     @GetMapping("/home")
     public String home(Model model, Principal principal) {
         String username = principal != null ? principal.getName() : "Guest";
         User user = userService.getUserByUsername(username);
 
         if (principal != null) {
-            // Hämta mappar för den inloggade användaren
+            // Lägger till användarens mappar i modellen om användaren är inloggad
             model.addAttribute("folders", folderService.getFoldersByUser(user));
         }
 
@@ -41,6 +45,7 @@ public class HomeController {
         return "home";
     }
 
+    // Hanterar begäran för att skapa en ny mapp
     @PostMapping("/createFolder")
     public String createFolder(@RequestParam String name, Principal principal) {
         if (principal != null) {
@@ -51,6 +56,7 @@ public class HomeController {
         return "redirect:/home";
     }
 
+    // Hanterar begäran för att radera en mapp
     @PostMapping("/deleteFolder")
     public String deleteFolder(@RequestParam Long folderId) {
         folderService.deleteFolder(folderId);
